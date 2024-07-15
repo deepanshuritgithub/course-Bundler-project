@@ -1,6 +1,6 @@
 import { Grid, Box, Text, Heading, Stack, HStack, Progress } from '@chakra-ui/react';
 import React from 'react';
-import cursor from "../../../assets/images/cursor.png";
+import cursor from "../../../../public/assets/images/cursor.png";
 import Sidebar from '../Sidebar';
 import { RiArrowUpLine } from "react-icons/ri";
 import { RiArrowDownLine } from "react-icons/ri";

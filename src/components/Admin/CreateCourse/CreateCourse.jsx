@@ -9,7 +9,7 @@ import {
   Image,
   Button
 } from "@chakra-ui/react";
-import cursor from "../../../assets/images/cursor.png";
+import cursor from "../../../../public/assets/images/cursor.png";
 import Sidebar from "../Sidebar";
 import { fileUploadcss } from "../../Auth/Register";
 

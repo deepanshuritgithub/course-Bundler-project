@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Box, TableContainer,Table, TableCaption, Heading, Thead , Tr, Th,Td, Tbody, HStack,Button } from "@chakra-ui/react";
-import cursor from "../../../assets/images/cursor.png";
+import cursor from "../../../../public/assets/images/cursor.png";
 import Sidebar from "../Sidebar";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 

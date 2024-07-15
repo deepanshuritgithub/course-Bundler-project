@@ -1,6 +1,6 @@
 import { Grid, Box, Heading, Text, VStack } from '@chakra-ui/react'
 import React, {useState} from 'react'
-import introVideo from '../../assets/videos/video.mp4'
+import introVideo from '../../../public/assets/videos/video.mp4'
 
 
 function CoursePage() {

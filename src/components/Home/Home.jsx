@@ -12,11 +12,11 @@
         } from '@chakra-ui/react'
   import "./home.css";
   import { Link } from 'react-router-dom';
-  import vg from "../../assets/images/bg.jpg";
+  import vg from "../../../public/assets/images/bg.jpg";
   import { CgGoogle , CgYoutube } from "react-icons/cg"
   import { SiCoursera , SiUdemy } from "react-icons/si"
   import { DiAws } from "react-icons/di"
-  import introVideo from "../../assets/videos/video.mp4"
+  import introVideo from "../../../public/assets/videos/video.mp4"
 
 
   function Home() {

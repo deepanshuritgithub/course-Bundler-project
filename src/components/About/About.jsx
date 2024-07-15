@@ -1,9 +1,9 @@
 import { Avatar, Container, Heading, Stack ,VStack ,Text, Button, Box, HStack, Tab} from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
-import introVideo from "../../assets/videos/video.mp4";
+import introVideo from "../../../public/assets/videos/video.mp4";
 import {RiSecurePaymentFill} from "react-icons/ri";
-import termsAndCondition from "../../assets/docs/termsAndCondition"
+import termsAndCondition from "../../../public/assets/docs/termsAndCondition"
 
 const Founder = () => (
   <Stack direction={["column", "row"]} spacing={["4", "16"]} p={"8"}>
