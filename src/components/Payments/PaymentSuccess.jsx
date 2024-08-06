@@ -1,9 +1,11 @@
 import { Container, Heading, VStack, Box , Text, Button} from "@chakra-ui/react";
 import React from "react";
 import {RiCheckboxCircleFill} from 'react-icons/ri';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 function PaymentSuccess() {
+
+    const reference = useSearchParams()[0].get("reference");//so ye array return krta hai or  hmme first wali chiz chiye jo ki get hai 
   return (
     <Container h={"90vh"} p={"16"}>
         <Heading my={"8"} textAlign={"center"}>
@@ -43,7 +45,7 @@ function PaymentSuccess() {
 
             <Heading size={"xs"} >
                 {/* so ye refernce number hogaa jo payment ke baad milega or ye backend se milegaa or ye  */}
-                Reference : sdaadfjjfkldlla,
+                Reference : {reference} 
             </Heading>
         </VStack>
     </Container>

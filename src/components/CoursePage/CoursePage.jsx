@@ -1,7 +1,9 @@
 import { Grid, Box, Heading, Text, VStack } from '@chakra-ui/react'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import introVideo from '../../../public/assets/videos/video.mp4'
-
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getCourseLectures } from '../../redux/actions/course';
 
 function CoursePage() {
 
@@ -49,9 +51,13 @@ function CoursePage() {
 
 ]
 
+const dispatch = useDispatch();
+const params = useParams();
+useEffect(()=>{
+    dispatch(getCourseLectures(params.id));
+    
 
-
-
+},[dispatch , params.id])
 
 
   return (

@@ -3,6 +3,8 @@ import ColorModeSwitcher from "../../../ColorModeSwitcher.jsx"; //yha pe kya hai
 import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, VStack, useDisclosure , HStack } from "@chakra-ui/react";
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from "react-icons/ri";
 import {Link} from 'react-router-dom'
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/actions/user.js";
 
 
                 //this is the by default properties , if someone will pass then ok otherwise it will take these value which is by-default
@@ -14,19 +16,22 @@ const LinkButton = ({url='/', title='Home', onClose}) =>(
 );
 
 
-function Header() {
+function Header({isAuthenticated = false, user}) {
 
     const {isOpen , onOpen , onClose} = useDisclosure();
-    const isAuthenticated = true;
+    // const isAuthenticated = false; //so ese hm lenge state mai se 
 
-    const user = {
-        role: "admin",
-    };
+    // const user = {
+    //     role: "admin",
+    // };
+
+    const dispatch = useDispatch();
 
 
     const logoutHandler = () => {
-        console.log("logout"); 
+        // console.log("logout"); 
         onClose(); //log out hone ke baad onClose ko kr denge close 
+        dispatch(logout());
     }
 
   return (

@@ -6,8 +6,7 @@ import { RiDeleteBin7Fill } from "react-icons/ri";
 
 function Users() {
 
-
-  const users =[
+  const users = [
     //1st user , which index is 0 and the item 1 
     {
     _id:"acasgvfsgssaqaaejiji",

@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import { Container, FormLabel, Heading, VStack, Input, Box , Button, Avatar } from '@chakra-ui/react'
 import { Form , Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { register } from '../../redux/actions/user'
 
 
 //ab esko hm kaii jagah use krne wala hai to mai esko alag se rkhunga or export bhi kr leta hu , es object ko , eske andar jitne bhi properties hai , or trike se bhi use kr le hm 
@@ -17,10 +19,9 @@ export const fileUploadcss ={
 
 
   const fileUploadStyle = {
-
     "&::file-selector-button" : fileUploadcss,
-
   }
+
 function Register() {
   const [name , setName] = useState("");
   const [email , setEmail] = useState("");
@@ -28,7 +29,7 @@ function Register() {
   const [imagePrev , setImagePrev] = useState("");
   const [image , setImage] = useState("");
 
-
+    const dispatch = useDispatch();
 
   const changeImageHandler = (e) =>{
     const file = e.target.files[0];  //so ek file lene ke liyee , vo bhi first file ,ek file hogi esme vaise bhii 
@@ -47,6 +48,24 @@ function Register() {
   }
 
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    // Here you can use the `image` state to handle the form submission
+    // console.log({ name, email, password, image });
+
+    const myForm = new FormData(); //object bnaya hmme or usme sab chiz dalke bhj diye hai
+
+    // FormData is a built-in JavaScript object that allows you to easily construct a set of key/value pairs representing form fields and their values, which can include files.
+    // It is useful for sending form data, including files, via HTTP requests.
+
+    myForm.append("name", name); 
+    myForm.append("email", email);
+    myForm.append("password", password);
+    myForm.append("file", image);  //image ka variable bhj rha hai pr file ke naam se bhjna hai , because we are expecting a file in the multer ,that's why we have to give a same name here
+    dispatch(register(myForm));
+  };
+  
+
   return <Container h={"98vh"}> 
   {/* so kahi pe bhi overflow ku nahi ho rha hai , kyuki container khud ba khud adjust ho jata hai eske hissaab se  */}
     
@@ -56,7 +75,7 @@ function Register() {
                 textTransform={"uppercase"}
                 />
 
-                    <Form style={{width: '100%'}}>
+                    <Form onSubmit={submitHandler} style={{width: '100%'}}>
 
 
 
@@ -131,7 +150,7 @@ function Register() {
                         </Box>
 
 
-                        <Button my={"4"} colorScheme={'yellow'} type='submit'>Login</Button>
+                        <Button my={"4"} colorScheme={'yellow'} type='submit'>Sign Up</Button>
 
                         <Box my={"4"}> 
                         Already Signed Up?   <Link to="/login">

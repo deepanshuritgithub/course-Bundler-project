@@ -1,50 +1,90 @@
 import { Avatar, Button, Container, Heading, HStack, Stack, VStack, Text, Input, Image,  Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay,useDisclosure ,ModalFooter, ModalHeader } from '@chakra-ui/react'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { fileUploadcss } from '../Auth/Register'
+import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
+import { useDispatch, useSelector } from 'react-redux';
+import { cancelSubscription, loadUser } from '../../redux/actions/user';
+import toast from 'react-hot-toast';
 
 
-function Profile() {
+function Profile({ user }) {
 
-    const user = {
-        name: "Deepanshu Kukreja",
-        email: "Kukrejagolu8@gmail.com",
-        createdAt: String(new Date().toISOString()),
-        role:'user',
-        subscription: {
-            status: "active",
-        },
-        //user ke andar playlist hone wali hai backed se hmme milegaa , hmme man liya array hai, array of objects jisme ki hogaa course , or id likhi hogi kuch , course ki, or hogaa ek poster jisme poster ka url hogaa 
-        playlist: [
-            //bas ek hi hai item playlist ke array mai
-            {
-                course: "sadasd", //course ki id or poster ka url 
-                poster: "https://cdn.pixabay.com/photo/2024/02/23/08/31/father-8591551_1280.png"
-            }
-        ]
-    };
+    // const user = {
+    //     name: "Deepanshu Kukreja",
+    //     email: "Kukrejagolu8@gmail.com",
+    //     createdAt: String(new Date().toISOString()),
+    //     role:'user',
+    //     subscription: {
+    //         status: "active",
+    //     },
+    //     //user ke andar playlist hone wali hai backed se hmme milegaa , hmme man liya array hai, array of objects jisme ki hogaa course , or id likhi hogi kuch , course ki, or hogaa ek poster jisme poster ka url hogaa 
+    //     playlist: [
+    //         //bas ek hi hai item playlist ke array mai
+    //         {
+    //             course: "sadasd", //course ki id or poster ka url 
+    //             poster: "https://cdn.pixabay.com/photo/2024/02/23/08/31/father-8591551_1280.png"
+    //         }
+    //     ]
+    // };
 
 
 
-    const removeFromPlaylistHandler = (id) => {
-        console.log(id);
+    const removeFromPlaylistHandler = async(id) => {
+        // console.log(id);
+        await dispatch(removeFromPlaylist(id));
+        dispatch(loadUser());
     }
 
-    
-  const changeImageSubmitHandler = (e, image) => {
+    const dispatch = useDispatch();
+    const {loading, message, error} = useSelector(state=> state.profile);
+    const {loading:subscriptionLoading, message:subscriptionMessage, error:subscriptionError} = useSelector(state=> state.subscription);
+
+    useEffect(()=>{
+        
+        if(error){
+            toast.error(error);
+            dispatch({type: 'clearError'});
+        }
+        if(message){
+            toast.success(message);
+            dispatch({type: 'clearMessage'}); 
+        }
+        if(subscriptionError){
+            toast.error(subscriptionError);
+            dispatch({type: 'clearError'});
+        }
+        if(subscriptionMessage){
+            toast.success(subscriptionMessage);
+            dispatch({type: 'clearMessage'}); 
+            dispatch(loadUser()); 
+        }
+        
+    },[dispatch, error , message , subscriptionError, subscriptionMessage]);
+
+
+  const changeImageSubmitHandler = async(e, image) => {
     e.preventDefault();
 
+    const myForm = new FormData();
+
+    myForm.append("file", image); 
+
+    await dispatch(updateProfilePicture(myForm));
+    dispatch(loadUser());
 }
 
 
     const {isOpen, onClose, onOpen} = useDisclosure();
 
-
+    const cancelSubscriptionHandler = () => {
+        dispatch(cancelSubscription())
+    }
 
 
   return (
-    <Container minH={"95vh"} maxW="container.lg" py={"8"} >
+    <Container minH={"98vh"} maxW="container.lg" py={"8"} >
         <Heading children="Profile" m={"8"} textTransform={"uppercase"} />
 
         <Stack
@@ -56,8 +96,9 @@ function Profile() {
         >
             
             <VStack>
-                <Avatar boxSize={"48"} />
 
+                <Avatar boxSize={"48"}  src={user.avatar.url} />
+                
                 <Button
                 onClick={onOpen} 
                 colorScheme='yellow'
@@ -94,10 +135,12 @@ function Profile() {
 
                             <Text children="Subscription" fontWeight={"bold"} />
 
-                            {
+                            {user.subscription && 
                                 user.subscription.status === "active" ? ( //so now it is undefined so it will not shown
 
                                     <Button
+                                        isLoading={subscriptionLoading}
+                                        onClick={cancelSubscriptionHandler} 
                                         color={"yellow.500"}
                                         variant={"unstyled"}
                                         
@@ -183,6 +226,7 @@ function Profile() {
 
                                     <Button 
                                             //hm direct nahi likhenge removeFromPlaylistHandler kyuki hmme id pass krne hai eske andar vo to tabhi possile hai jab hm kya kre jab hmm uss callback bna de , kyuki onClick ko kya chahiye ek function chiyee , or ye kya kr rha hai removeFromPlaylistHandler ye return de rha hai  , pr ab ese likhne se kya hua ki ye return function de rha hai callback ko , or onClick ko to chiye kya function chiye , vo usse mil gya hai  
+                                    isLoading={loading}
                                     onClick={() => removeFromPlaylistHandler(item.course)}
                                     >
                                         <RiDeleteBin7Fill />
@@ -202,6 +246,7 @@ function Profile() {
                 changeImageSubmitHandler={changeImageSubmitHandler}
                 isOpen={isOpen}
                 onClose={onClose}
+                loading={loading}
                 />
 
     </Container>
@@ -215,7 +260,7 @@ export default Profile
 
 
 
-function ChangePhotoBox({isOpen , onClose , changeImageSubmitHandler}) {
+function ChangePhotoBox({isOpen , onClose , changeImageSubmitHandler, loading}) {
 
     const [imagePrev , setImagePrev] = useState("");
     const [image , setImage] = useState("");
@@ -241,7 +286,6 @@ function ChangePhotoBox({isOpen , onClose , changeImageSubmitHandler}) {
     setImagePrev("");
     setImage("");
 }
-
 
 
   return (
@@ -273,6 +317,7 @@ function ChangePhotoBox({isOpen , onClose , changeImageSubmitHandler}) {
                                         />
 
                                             <Button
+                                                isLoading={loading}
                                                 w={"full"}
                                                 colorScheme={'yellow'}
                                                 type='submit'

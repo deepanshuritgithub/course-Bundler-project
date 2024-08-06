@@ -1,12 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Input, Button, Heading , VStack } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { forgetPassword } from "../../redux/actions/profile";
+import toast from "react-hot-toast";
+
 
 function ForgetPassword() {
+
     const [email, setEmail] = useState("");
+
+    const {loading, message, error } = useSelector((state) => state.profile);
+    const dispatch = useDispatch();
+
+    const submitHandler= (e) => {
+      e.preventDefault();
+      dispatch(forgetPassword(email));
+    }
+
+    useEffect(()=>{
+
+      console.log("Error:", error);
+      console.log("Message:", message);
+
+      if(error){
+          toast.error(error);
+          dispatch({type: 'clearError'});
+      }
+      if(message){
+          toast.success(message);
+          dispatch({type: 'clearMessage'}); 
+      }
+  },[dispatch, error , message]);
+
 
   return (
     <Container py={"16"} h={"96vh"}>
-      <form>
+      <form onSubmit={submitHandler}>
         <Heading
           children="Forget Password"
           my="16"
@@ -24,7 +53,12 @@ function ForgetPassword() {
             focusBorderColor="yellow.500"
             />
 
-            <Button type="submit" w={"full"} colorScheme="yellow">
+            <Button 
+            isLoading={loading} 
+            type="submit" 
+            w={"full"} 
+            colorScheme="yellow"
+            >
                 Send Reset Link
             </Button>
 

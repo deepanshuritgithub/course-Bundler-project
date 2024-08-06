@@ -1,10 +1,21 @@
-import React,{useState} from 'react'
-import { Container, FormLabel, Heading, VStack, Input, Box , Button} from '@chakra-ui/react'
-import { Form, Link } from 'react-router-dom'
+import React,{useState} from 'react';
+import { Container, FormLabel, Heading, VStack, Input, Box , Button} from '@chakra-ui/react';
+import { Form, Link } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import { login } from '../../redux/actions/user';
+
 
 function Login() {
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
+
+    const dispatch = useDispatch();
+
+    const submitHandler = (e) => {
+        e.preventDefault();//not reload page 
+        dispatch(login(email, password));
+    }
+
 
   return <Container h={"98vh"}> 
   {/* so kahi pe bhi overflow ku nahi ho rha hai , kyuki container khud ba khud adjust ho jata hai eske hissaab se  */}
@@ -12,7 +23,7 @@ function Login() {
             <VStack h={"full"} justifyContent="center" >
 
                 <Heading children={"Welcome to CourseBundler"} width={"full"} m={"+55px"} />
-                <Form style={{width: '100%'}}>
+                <Form onSubmit={submitHandler} style={{width: '100%'}}>
                         <Box my={"4"} w={"full"} >
                             <FormLabel htmlFor='email' children="Email Address"/>
                             <Input 
@@ -24,7 +35,7 @@ function Login() {
                                 type={"email"} 
                                 focusBorderColor="yellow.500" 
                             />
-                   
+                            
                         </Box>
 
                         <Box my={"4"} w={"full"}>
