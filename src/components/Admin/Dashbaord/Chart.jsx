@@ -29,7 +29,7 @@ ChartJS.register(
 );
 
 
-export function LineChart() {
+export function LineChart({views=[]}) {
 
     //esme labels ki array bana rha hu sabse phle 
     // const labels = ["abc","abc2","abc3","abc4"];
@@ -55,7 +55,7 @@ export function LineChart() {
         datasets:[
             {
                 label:"Views",
-                data:[1,2,3,4],
+                data:views,
                 borderColor:"rgba(107,70,193,0.5)",
                 backgroundColor:"#6b46c1",
             },
@@ -71,7 +71,7 @@ export function LineChart() {
 
 
 export function 
-DoughnutChart() {
+DoughnutChart({users = []}) {
 
     
     const data = {
@@ -80,7 +80,7 @@ DoughnutChart() {
             {
                 //so total users hmmne kitne diya hai qty = 23  ,23 total users hai  , so not subscribed 20 , so subscribed 3 
                 label:"Views",
-                data:[3,20],
+                data: users,
                 borderColor:["rgb(62, 12, 171","rgb(214, 43,129)"],
                 backgroundColor:["rgba(62, 12, 171, 0.3","rgba(214, 43,129, 0.3)"],
                 borderwidth:1,
@@ -139,3 +139,7 @@ function getLastYearMonths(){
     return labels;
 
 }
+
+
+
+//so jab bhi hm responsiveness check krne ke liye mobile ke liye kholengee to sab ui charts apni position se hat sakte hai es liye hmme reload krna padegaa  , kyuki jo chartjs jo hota hai recently update nahi hota hai usko time lgta hai charts update krne mai 

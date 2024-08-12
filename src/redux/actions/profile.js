@@ -15,7 +15,7 @@ export const updateProfile = (name, email) => async dispatch =>{
             withCredentials:true, 
             
         });
-        console.log(data);
+        // console.log(data);
         dispatch({type:"updateProfileSuccess", payload: data.message});
 
     } catch (error) {
@@ -162,7 +162,7 @@ export const removeFromPlaylist  = (id) => async dispatch =>{
         const { data } = await axios.delete(`${server}/removefromplaylist?id=${id}`,//yha pe esme address pass krne ki bhi jrurat nahi hai login ho ya na ho doesn't matter... 
             config,
         );
-        console.log(data);
+        // console.log(data);
         dispatch({type:"removeFromPlaylistSuccess", payload: data.message});
 
     } catch (error) {

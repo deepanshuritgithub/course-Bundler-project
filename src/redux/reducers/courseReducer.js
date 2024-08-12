@@ -15,14 +15,16 @@ export const courseReducer = createReducer({courses:[], lectures:[]},(builder) =
       state.loading = false; 
       state.error = action.payload;
     })
-    .addCase('getCoursesRequest', (state) => {
+
+
+    .addCase('getCourseRequest', (state) => {
       state.loading = true;
     })
-    .addCase('getCoursesSuccess', (state, action) => {
+    .addCase('getCourseSuccess', (state, action) => {
       state.loading = false;
       state.lectures = action.payload;
     })
-    .addCase('getCoursesFail', (state, action) => {
+    .addCase('getCourseFail', (state, action) => {
       state.loading = false; 
       state.error = action.payload;
     })

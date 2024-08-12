@@ -20,7 +20,7 @@ import React,{useState} from "react";
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { fileUploadcss } from "../../Auth/Register";
 
-function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, lectures=[1,2,3,4,5,6,7,8,9], addLectureHandler }) {
+function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, lectures=[], addLectureHandler, loading }) {
 
     const [title, setTitle ] = useState("");
     const [description, setDescription ] = useState("");
@@ -39,7 +39,6 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
             setVideo(file);             //yha pe normal blob file ka 
         }
         };
-
 
     const handleClose = () => {
         onClose();
@@ -85,12 +84,13 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
 
                                             <VideoCard 
                                             key={index}
-                                            title="React Intro"
-                                            description="This is a intro lecture , where you will know the basics of the React"
+                                            title={item.title}
+                                            description={item.description}
                                             num={index + 1} //num matlab index + 1, so jaise map krenge 0 index hmme 1 show krna hai , so jo bhi index hogi usme 1 plus krengee , so ye 1 st element hi hai es liye 1 likh rha hai , but actual mai index + 1 krengee ....
-                                            lectureId="acnjsiwjsiwjlecturendks"
+                                            lectureId={item._id}
                                             courseId={id}
                                             deleteButtonHandler={deleteButtonHandler}
+                                            loading={loading}
                                             />
                                             
                                         )
@@ -101,7 +101,7 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
                     </Box>
 
                     <Box>
-                        <form onSubmit={e =>addLectureHandler(e, title, description, video )}>
+                        <form onSubmit={e =>addLectureHandler(e, id, title, description, video )}>
                             <VStack spacing={"4"}>
 
                                 <Heading children="Add Lectures" size={"md"} textTransform={"uppercase"} />
@@ -118,7 +118,7 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
                                 /> 
 
                                 <Input
-                                accept="video/mp4"
+                                accept="video/*"
                                 required
                                 type={"file"}
                                 focusBorderColor="purple.300"
@@ -138,18 +138,19 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
                                     controls
                                     src={videoPrev}
                                     >
-
+                                        
                                     </video>
                                 )
                                 }
 
                                 <Button 
+                                isLoading={loading}
                                 w={"full"}
                                 colorScheme={"purple"}
                                 type="submit"
                                 >
                                     Upload lectures 
-                                </Button>
+                                </Button>       
 
                             </VStack>   
 
@@ -162,7 +163,7 @@ function CourseModal({ isOpen, onClose, id, deleteButtonHandler ,courseTitle, le
         </ModalBody>
         
         <ModalFooter>
-            <Button onClick={handleClose}>Close</Button>
+            <Button isLoading={loading} onClick={handleClose}>Close</Button>
         </ModalFooter>
 
         </ModalContent>
@@ -179,27 +180,29 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonHandler,
+  loading
 }) {
-  return (
+    return (
     <Stack
-      direction={["column", "row"]}
-      my={"8"}
-      borderRadius={"lg"}
-      boxShadow={"0 0 10px rgba(107, 70 ,193, 0.5)"}
-      justifyContent={["flex-start", "space-between"]}
-      p={["4", "8"]}
-    >
-      <Box>
-        <Heading size={"sm"} children={`#${num} ${title} `} />
-        <Text children={description} />
-      </Box>
+        direction={["column", "row"]}
+        my={"8"}
+        borderRadius={"lg"}
+        boxShadow={"0 0 10px rgba(107, 70 ,193, 0.5)"}
+        justifyContent={["flex-start", "space-between"]}
+        p={["4", "8"]}
+        >
+        <Box>
+            <Heading size={"sm"} children={`#${num} ${title} `} />
+            <Text children={description} />
+        </Box>
 
-      <Button
-        color={"purple.600"}
-        onClick={() => deleteButtonHandler(courseId, lectureId)}
-      >
-        <RiDeleteBin7Fill />
-      </Button>
+        <Button
+            isLoading={loading}
+            color={"purple.600"}
+            onClick={() => deleteButtonHandler(courseId, lectureId)}
+        >
+            <RiDeleteBin7Fill />
+        </Button>
     </Stack>
-  );
+    );
 }

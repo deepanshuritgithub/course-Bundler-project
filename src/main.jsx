@@ -31,7 +31,6 @@ import toast,{Toaster} from "react-hot-toast";
 import { loadUser } from './redux/actions/user.js'
 // import ProtectedRoute from './components/Layout/ProtectedRoute.jsx'
 import {ProtectedRoute} from "protected-route-react";
-import Loader from './components/Layout/Loader/Loader.jsx'
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -77,6 +76,7 @@ const ToastNotification =() =>{
 const App = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user , loading } = useSelector((state) => state.user);
+  
 
   useEffect(() => {
     dispatch(loadUser());
@@ -84,10 +84,15 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route element={<Layout />}>
+      <Route element={  <Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/course/:id" element={<CoursePage />} />
+        <Route path="/course/:id" element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}>
+            <CoursePage user={user} />
+          </ProtectedRoute>
+          }
+          />
         <Route path="/contact" element={<Contact />} />
         <Route path="/request" element={<Request />} />
         <Route path="/about" element={<About />} />
@@ -223,26 +228,24 @@ const App = () => {
 
   return (
     <>
-    {loading? (
-      <Loader />  
-    ): (
-      <>
+    
       <RouterProvider router={router} />
       <ToastNotification />
       <Toaster />
-      </>
-    ) }
+    
     </>
   );
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+    
+
   <React.StrictMode>
     <ReduxProvider store={store}>
       <ChakraProvider theme={theme}>
-        <App />
+          <App />
       </ChakraProvider>
-    </ReduxProvider>
+    </ReduxProvider>  
   </React.StrictMode>
 );
 

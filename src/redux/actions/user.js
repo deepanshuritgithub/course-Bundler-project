@@ -13,7 +13,7 @@ export const login = (email, password) => async(dispatch) =>{
             withCredentials:true, 
             // so jisme bhi cookies ka use aayega usme ya mandatory true dena hai otherwise kaam nahi kregaa , kyuki vha se cookie aayegi or uski ka use login krte time , create time chiye hmme jab token generate hogaa , vrna nahi doge to kya hoga browser pe request tabhi aayegi ye mandatory dena hai with creadienntials true otherwise tum khaoge postman pe request jari thi yha kyu nahi jarii 
         });
-        console.log(data);
+        // console.log(data);
         dispatch({type:"loginSuccess", payload: data});
     } catch (error) {
         
@@ -34,7 +34,7 @@ export const loadUser = () => async(dispatch) =>{
             
         }
     );
-        console.log(data);
+        // console.log(data);
         dispatch({type:"loadUserSuccess", payload: data.user});
     } catch (error) {
         
@@ -55,7 +55,7 @@ export const logout = () => async(dispatch) =>{
             withCredentials:true,    
         }
     );
-        console.log(data);
+        // console.log(data);
         dispatch({type:"logoutSuccess", payload: data.message});
     } catch (error) {
         dispatch({type:"logoutFail", payload: error.response.data.message});
@@ -74,7 +74,7 @@ export const register = (formdata) => async(dispatch) =>{
             },
             withCredentials:true, 
         });
-        console.log(data);
+        // console.log(data);
         dispatch({type:"registerSuccess", payload: data.subscriptionId});
     } catch (error) {
         

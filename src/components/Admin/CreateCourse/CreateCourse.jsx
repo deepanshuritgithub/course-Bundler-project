@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Input,
@@ -12,6 +12,9 @@ import {
 import cursor from "../../../../public/assets/images/cursor.png";
 import Sidebar from "../Sidebar";
 import { fileUploadcss } from "../../Auth/Register";
+import { createCourse } from "../../../redux/actions/admin";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 
 
@@ -23,6 +26,10 @@ import { fileUploadcss } from "../../Auth/Register";
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
     const [imagePrev, setImagePrev] = useState("");
+    //agr ye ese alag alag nahi bnane to ek bnao bs data krke ,or initial state uski object rkho , ek hi mai sab chize rkh sakta hai  
+
+    const dispatch = useDispatch();
+    const {loading , error , message } = useSelector(state => state.admin);
 
     const categories = [
       "Web development",
@@ -47,6 +54,32 @@ const changeImageHandler = (e) =>{
     }
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const myForm = new FormData();
+
+    myForm.append('title' , title);
+    myForm.append('description' , description);
+    myForm.append('category' , category);
+    myForm.append('createdBy', createdBy);
+    myForm.append('file', image);
+    
+    dispatch(createCourse(myForm)); 
+  }
+
+  
+  useEffect(() =>{
+    if(error){
+      toast.error(error);
+      dispatch({type:'clearError'}); //state mai se clear kr dega vo error ko if any error occurs 
+    }
+    if(message){
+      toast.success(message);
+      dispatch({type:'clearMessage'});//state mai se clear kr dega vo message ko if any message occurs
+    }
+  
+  },[dispatch,error , message])
+
 
     return (
       <Grid
@@ -61,7 +94,7 @@ const changeImageHandler = (e) =>{
         
         <Container py={"16"}>
               
-              <form>
+              <form onSubmit={submitHandler}>
 
                     <Heading
                       textTransform={"uppercase"}
@@ -128,6 +161,7 @@ const changeImageHandler = (e) =>{
                       )}
 
                       <Button 
+                      isLoading={loading}
                       w={"full"}
                       colorScheme={"purple"}
                       type="submit"

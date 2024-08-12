@@ -19,7 +19,8 @@ function Subscribe({user}) {
     const dispatch = useDispatch();
     const [key, setKey] = useState("");
 
-    const {loading , error , subscriptionId} = useSelector(state => state.subscription);
+    const {loading , error , subscriptionId} = useSelector(state => state.subscription); //ye sab store mai se aata hai
+    const { error:courseError } = useSelector(state => state.course)
 
     const subscribeHandler =async()=>{
         //e.prevent Default krne ki koi jrurat nahi hai kyuki koi form nahi hai yhaa 
@@ -36,6 +37,12 @@ function Subscribe({user}) {
             toast.error(error);
             dispatch({type: 'clearError'})
         }
+        if(courseError){
+            toast.error(courseError);
+            dispatch({type: 'clearError'})
+        }
+
+
         if(subscriptionId && key){
 
             const openPopUp = ()  =>{
@@ -65,7 +72,7 @@ function Subscribe({user}) {
             }
             openPopUp();
         }
-    },[dispatch , error , user.name , user.email, key , subscriptionId])
+    },[dispatch , error , user.name , user.email, key , subscriptionId, courseError])
 
     return (
     <Container h={"96vh"} padding={"16"}>
