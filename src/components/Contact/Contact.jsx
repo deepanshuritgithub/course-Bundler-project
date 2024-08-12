@@ -2,7 +2,7 @@ import { Container,VStack, Heading, Box ,FormLabel ,Input, Button, Textarea } fr
 import React,{useEffect, useState} from 'react'
 import { Form } from 'react-router-dom'
 import {Link} from 'react-router-dom'
-import {useDispatch} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 import { contactUs } from '../../redux/actions/other'
 import toast from 'react-hot-toast'
 function Contact() {
