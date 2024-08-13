@@ -27,10 +27,11 @@ export default function Footer() {
             <Flex direction={{ base: "column", md: "row" }} justify="space-between" mb={6}>
                 <ChakraLink as={RouterLink} to="/" display="flex" alignItems="center" mb={{ base: 6, md: 0 }}>
                 
-                    <img
-                        src=""
+                    <img 
+                        src="https://alexharkness.com/wp-content/uploads/2020/06/logo-2.png"
                         alt="Logo"
-                        height="64px"
+                        height="120px"
+                        width="120px"
                     />
 
                 </ChakraLink>
