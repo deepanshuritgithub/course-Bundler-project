@@ -130,7 +130,7 @@ export default function Footer() {
                     />
                     <IconButton
                         as={ChakraLink}
-                        href="#"
+                        href="https://github.com/deepanshuritgithub"
                         aria-label="Github"
                         icon={<FaGithub />}
                         variant="ghost"
